@@ -1,10 +1,10 @@
-import { throttle } from 'lodash-es'
-import { vw2px, isEmpty, isMultiTouch } from './helpers'
+import { pxTransfer, isEmpty, isMultiTouch } from './helpers'
 
 export default {
   inserted(el, binding) {
-    const { value = {}, arg = 0, modifiers } = binding
+    const { value = {}, modifiers } = binding
     let {
+      threshold = { negative: 0, positive: 0 },
       onStart, // 手指触及时
       onSwipingNegative, // 手指向上或向左滑动中
       onSwipingPositive, // 手指向下或向右滑动中
@@ -12,25 +12,12 @@ export default {
       onSwipedPositive, // 手指向下或向右滑动结束
     } = value
 
-    if (onSwipingNegative) {
-      onSwipingNegative = throttle(onSwipingNegative, 500)
-    }
-    if (onSwipingPositive) {
-      onSwipingPositive = throttle(onSwipingPositive, 500)
-    }
-
     let startPosX = null,
       startPosY = null,
       offset = 0,
-      threshold = 0,
+      thresholdN = threshold.negative ? pxTransfer(threshold.negative) : 0,
+      thresholdP = threshold.positive ? pxTransfer(threshold.positive) : 0,
       _modifiers = isEmpty(modifiers) ? { v: true } : modifiers
-
-    // format => number(px)
-    if (typeof Number(arg) === 'number') {
-      threshold = Number(arg)
-    } else {
-      threshold = vw2px(arg)
-    }
 
     function swipeStart(event) {
       if (isMultiTouch(event.targetTouches)) return
@@ -50,16 +37,20 @@ export default {
         offset = _x - startPosX
       }
       // 如果滑动距离超过阈值
-      if (Math.abs(offset) >= threshold) {
-        offset < 0 && onSwipingNegative && onSwipingNegative(offset, event)
-        offset > 0 && onSwipingPositive && onSwipingPositive(offset, event)
+      if (offset < 0 && Math.abs(offset) >= thresholdN && onSwipingNegative) {
+        onSwipingNegative(offset, event)
+      }
+      if (offset > 0 && Math.abs(offset) >= thresholdP && onSwipingPositive) {
+        onSwipingPositive(offset, event)
       }
     }
     function swipeEnd(event) {
       // 如果滑动距离超过阈值
-      if (Math.abs(offset) >= threshold) {
-        offset < 0 && onSwipedNegative && onSwipedNegative(offset, event)
-        offset > 0 && onSwipedPositive && onSwipedPositive(offset, event)
+      if (offset < 0 && Math.abs(offset) >= thresholdN && onSwipedNegative) {
+        onSwipedNegative(offset, event)
+      }
+      if (offset > 0 && Math.abs(offset) >= thresholdP && onSwipedPositive) {
+        onSwipedPositive(offset, event)
       }
       startPosX = null
       startPosY = null

@@ -29,7 +29,7 @@ function build(builds) {
 }
 
 function buildEntry({ input, output }) {
-  const { file, banner } = output
+  const { file } = output
   const isProd = /min\.js$/.test(file)
   return rollup
     .rollup(input)
@@ -37,8 +37,7 @@ function buildEntry({ input, output }) {
     .then(async (bundle) => {
       const code = bundle.output[0].code
       if (isProd) {
-        const { code: minifedCode } = await terser.minify(code, { toplevel: true })
-        const minified = (banner ? banner + '\n' : '') + minifedCode
+        const { code: minified } = await terser.minify(code, { toplevel: true })
         return write(file, minified, true)
       } else {
         return write(file, code)
