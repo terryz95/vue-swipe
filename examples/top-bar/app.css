@@ -1,0 +1,6 @@
+.top-bar {
+  height: 0;
+  background-color: #f7f8fa;
+  text-align: center;
+  transition: height 0.2s linear;
+}
