@@ -10,6 +10,9 @@
   background-color: rgba(0, 0, 0, 0.6);
   transition: height 0.3s linear;
 }
+.bottom-drawer.swiping {
+  transition: none;
+}
 .bottom-drawer__trigger {
   position: relative;
   width: 100%;

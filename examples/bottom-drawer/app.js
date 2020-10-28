@@ -1,20 +1,26 @@
 Vue.component('demo', {
   template: `
   <main class="page-main">
-    <div class="bottom-drawer" ref="drawer" :style="drawerStyle">
-      <div class="bottom-drawer__trigger" v-swipe="{ onSwipingNegative, onSwipingPositive, onSwipedNegative, onSwipedPositive }"></div>
+    <div class="bottom-drawer" ref="drawer" :class="drawerCls" :style="drawerStyle">
+      <div class="bottom-drawer__trigger" v-swipe="{ onStart, onSwipingNegative, onSwipingPositive, onSwipedNegative, onSwipedPositive }"></div>
     </div>
   </main>
   `,
   data() {
     return {
       expand: false,
+      swiping: false,
       maxHeight: 480,
       minHeight: 64,
       drawerHeight: 64,
     }
   },
   computed: {
+    drawerCls() {
+      return {
+        swiping: this.swiping,
+      }
+    },
     drawerStyle() {
       return {
         height: `${this.drawerHeight}px`,
@@ -25,6 +31,9 @@ Vue.component('demo', {
     this.drawerHeight = this.$refs.drawer.clientHeight
   },
   methods: {
+    onStart(swiping) {
+      this.swiping = swiping
+    },
     onSwipingNegative(offset) {
       if (!this.expand && this.drawerHeight < this.maxHeight) {
         this.drawerHeight = this.minHeight - offset
@@ -35,7 +44,7 @@ Vue.component('demo', {
         this.drawerHeight = this.maxHeight - offset
       }
     },
-    onSwipedNegative(offset) {
+    onSwipedNegative(offset, swiping) {
       if (!this.expand) {
         if (Math.abs(offset) > 24) {
           this.drawerHeight = this.maxHeight
@@ -44,9 +53,9 @@ Vue.component('demo', {
           this.drawerHeight = this.minHeight
         }
       }
-      console.log(this.expand)
+      this.swiping = swiping
     },
-    onSwipedPositive(offset) {
+    onSwipedPositive(offset, swiping) {
       if (this.expand) {
         if (Math.abs(offset) > 24) {
           this.drawerHeight = this.minHeight
@@ -55,7 +64,7 @@ Vue.component('demo', {
           this.drawerHeight = this.maxHeight
         }
       }
-      console.log(this.expand)
+      this.swiping = swiping
     },
   },
 })

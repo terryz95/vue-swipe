@@ -1,7 +1,7 @@
 Vue.component('demo', {
   template: `
   <main class="page-main" v-swipe.v="{onStart, onSwipingNegative, onSwipingPositive, onSwipedNegative, onSwipedPositive}">
-    <section class="top-bar" :style="topBarStyle">Top Bar</section>
+    <section class="top-bar" :class="topBarCls" :style="topBarStyle">Top Bar</section>
     <section class="page-content">
       <van-cell-group>
         <van-cell v-for="n in 15" :key="n" :title="'单元格' + n" value="内容" label="描述信息" />
@@ -12,11 +12,17 @@ Vue.component('demo', {
   data() {
     return {
       fromTop: false,
+      swiping: false,
       topBarMaxHeight: 48,
       topBarHeight: 0
     }
   },
   computed: {
+    topBarCls() {
+      return {
+        swiping: this.swiping
+      }
+    },
     topBarStyle() {
       return {
         height: `${this.topBarHeight}px`
@@ -24,8 +30,9 @@ Vue.component('demo', {
     }
   },
   methods: {
-    onStart() {
+    onStart(swiping) {
       this.fromTop = document.documentElement.scrollTop === 0
+      this.swiping = swiping
     },
     onSwipingNegative(offset) {
       if (this.fromTop && this.topBarHeight === this.topBarMaxHeight) {
@@ -37,15 +44,17 @@ Vue.component('demo', {
         this.topBarHeight = Math.abs(offset) > this.topBarMaxHeight ? this.topBarMaxHeight : Math.abs(offset)
       }
     },
-    onSwipedNegative() {
+    onSwipedNegative(offset, swiping) {
       if (this.fromTop) {
         this.topBarHeight = 0
       }
+      this.swiping = swiping
     },
-    onSwipedPositive() {
+    onSwipedPositive(offset, swiping) {
       if (this.fromTop) {
         this.topBarHeight = this.topBarMaxHeight
       }
+      this.swiping = swiping
     },
   },
 })
