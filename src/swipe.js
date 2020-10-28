@@ -21,14 +21,14 @@ export default {
 
     function swipeStart(event) {
       if (isMultiTouch(event.targetTouches)) return
-      startPosX = event.targetTouches[0].clientX
-      startPosY = event.targetTouches[0].clientY
-      onStart && onStart(event)
+      startPosX = event.targetTouches[0].screenX
+      startPosY = event.targetTouches[0].screenY
+      onStart && onStart(true, event)
     }
     function swipeMove(event) {
       if (isMultiTouch(event.targetTouches)) return
-      const _x = event.targetTouches[0].clientX
-      const _y = event.targetTouches[0].clientY
+      const _x = event.targetTouches[0].screenX
+      const _y = event.targetTouches[0].screenY
       if (_modifiers.v) {
         // 竖直滑动过程中
         offset = _y - startPosY
@@ -38,19 +38,19 @@ export default {
       }
       // 如果滑动距离超过阈值
       if (offset < 0 && Math.abs(offset) >= thresholdN && onSwipingNegative) {
-        onSwipingNegative(offset, event)
+        onSwipingNegative(offset, true, event)
       }
       if (offset > 0 && Math.abs(offset) >= thresholdP && onSwipingPositive) {
-        onSwipingPositive(offset, event)
+        onSwipingPositive(offset, true, event)
       }
     }
     function swipeEnd(event) {
       // 如果滑动距离超过阈值
       if (offset < 0 && Math.abs(offset) >= thresholdN && onSwipedNegative) {
-        onSwipedNegative(offset, event)
+        onSwipedNegative(offset, false, event)
       }
       if (offset > 0 && Math.abs(offset) >= thresholdP && onSwipedPositive) {
-        onSwipedPositive(offset, event)
+        onSwipedPositive(offset, false, event)
       }
       startPosX = null
       startPosY = null
