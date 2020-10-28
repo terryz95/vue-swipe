@@ -1,0 +1,31 @@
+.bottom-drawer {
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 64px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: height 0.3s linear;
+}
+.bottom-drawer.swiping {
+  transition: none;
+}
+.bottom-drawer__trigger {
+  position: relative;
+  width: 100%;
+  height: 32px;
+}
+.bottom-drawer__trigger:after {
+  position: absolute;
+  content: ' ';
+  width: 48px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: #fff;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
