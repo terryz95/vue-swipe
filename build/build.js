@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const colors = require('colors')
 const zlib = require('zlib')
 const terser = require('terser')
 const rollup = require('rollup')
@@ -49,10 +50,10 @@ function write(dest, code, zip) {
   return new Promise((resolve, reject) => {
     function report(extra) {
       console.log(
-        blue(path.relative(process.cwd(), dest)) +
+        colors.blue(path.relative(process.cwd(), dest)) +
           ' ' +
-          getSize(code) +
-          (extra || '')
+          colors.bgGreen(getSize(code) +
+          (extra || ''))
       )
       resolve()
     }
@@ -73,8 +74,4 @@ function write(dest, code, zip) {
 
 function getSize(code) {
   return (code.length / 1024).toFixed(2) + 'kb'
-}
-
-function blue(str) {
-  return '\x1b[1m\x1b[34m' + str + '\x1b[39m\x1b[22m'
 }
