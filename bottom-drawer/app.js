@@ -44,7 +44,7 @@ Vue.component('demo', {
       this.swiping = swiping
     },
     onSwiping(delta) {
-      if (this.drawerHeight >= minHeight && this.drawerHeight < maxHeight) {
+      if (this.drawerHeight >= minHeight && this.drawerHeight <= maxHeight) {
         console.log(this.drawerHeight, delta)
         this.drawerHeight = delta < 0 ? minHeight + (-delta) : maxHeight - delta
       }
