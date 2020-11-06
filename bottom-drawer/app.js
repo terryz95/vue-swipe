@@ -1,7 +1,7 @@
 const swipe = new VueSwipe().initDirective()
 const maxHeight = 480
 const minHeight = 64
-const triggerLen = 24
+const triggerLen = 48
 Vue.component('demo', {
   template: `
   <main class="page-main" @touchmove="preventMainSwipe">
@@ -40,13 +40,33 @@ Vue.component('demo', {
       event.preventDefault()
     },
     onStart(swiping) {
-      console.log(this.drawerHeight)
       this.swiping = swiping
     },
-    onSwiping(delta) {
-      if (this.drawerHeight >= minHeight && this.drawerHeight <= maxHeight) {
-        console.log(this.drawerHeight, delta)
-        this.drawerHeight = delta < 0 ? minHeight + (-delta) : maxHeight - delta
+    onSwiping(delta, offset) {
+      if (this.expand) {
+        // 滑动前的状态是展开
+        if (delta < 0) {
+          // 如果最后结果是向上滑动，则为最大高度
+          this.drawerHeight = maxHeight
+        } else if (offset > maxHeight - minHeight){
+          // 如果最后结果是向下滑动且偏移量大于可滑动范围，则为最小高度
+          this.drawerHeight = minHeight
+        } else {
+          // 在可滑动范围内滑动
+          this.drawerHeight = maxHeight - offset
+        }
+      } else {
+        // 滑动前的状态是收起
+        if (delta > 0) {
+          // 如果最后结果是向下滑动，则为最小高度
+          this.drawerHeight = minHeight
+        } else if (offset > maxHeight - minHeight){
+          // 如果最后结果是向上滑动且偏移量大于可滑动范围，则为最大高度
+          this.drawerHeight = maxHeight
+        } else {
+          // 在可滑动范围内滑动
+          this.drawerHeight = minHeight + offset
+        }
       }
     },
     onSwiped(delta, offset, swiping) {
