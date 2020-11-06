@@ -34,19 +34,19 @@ Vue.use(VueSwipeInstaller(
 ### 使用
 ```vue
 <template>
-	<div>
-		<!-- other dom -->
-		<div v-swipe="{ onStart, onSwiping, onSwiped }"></div>
-		<!-- other dom -->
-	</div>
+  <div>
+    <!-- other dom -->
+    <div v-swipe="{ onStart, onSwiping, onSwiped }"></div>
+    <!-- other dom -->
+  </div>
 </template>
 <script>
 export default {
-	methods: {
-		onStart() {
-			// TODO when swipe start
-		}
-  	onSwiping(orientation, delta, offset, event) {
+  methods: {
+    onStart() {
+      // TODO when swipe start
+    }
+    onSwiping(orientation, delta, offset, event) {
       console.log(orientation) // 'horizontal' | 'vertical'
       console.log(delta) // 带符号的偏移量
       console.log(offset) // 偏移量的绝对值
@@ -55,7 +55,7 @@ export default {
     onSwiped(orientation, delta, offset, event) {
       // 同onSwiping
     },
-	}
+  }
 }
 </script>
 ```
