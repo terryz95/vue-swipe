@@ -6,7 +6,7 @@
 2. 在事件回调中提供通用参数：判定的滑动方向、偏移量等
 
 如果需要做特殊交互需要结合这些参数单独实现。
-[examples](https://github.com/terryz95/vue-swipe/tree/main/examples)中给出了两个经常出现的例子。[Demo](https://github.com/terryz95/vue-swipe)
+[examples](https://github.com/terryz95/vue-swipe/tree/main/examples)中给出了两个经常出现的例子。[Demo](https://terryz95.github.io/vue-swipe/)
 ## 用法
 ### 引入
 ```javascript

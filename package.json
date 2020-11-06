@@ -1,16 +1,18 @@
 {
-  "name": "vue-swipe",
-  "version": "0.1.0",
+  "name": "@terryz95/vue-swipe",
+  "version": "0.0.1",
   "description": "A custom directive of Vue for the swipe gesture.",
   "main": "index.js",
   "repository": "https://github.com/terryz95/vue-swipe.git",
+  "publishConfig": {
+    "registry":"https://registry.npmjs.org/"
+  },
   "author": "Terry Zhang <mousetrip@outlook.com>",
   "license": "MIT",
   "scripts": {
     "build": "node build/build.js",
-    "dev:dist": "rollup -v -w -c build/rollup.dev.config.js",
-    "build:examples": "rm -rf examples/vue-swipe.min.js & npm run build & cp dist/vue-swipe.min.js examples",
-    "build:ghpages": "npm run build:examples & node build/gh-pages.js"
+    "build:examples": "node build/gh-pages.js",
+    "release": "bash scripts/release.sh"
   },
   "dependencies": {
     "lodash-es": "^4.17.15"
