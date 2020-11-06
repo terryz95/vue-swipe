@@ -5,7 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/terryz95/vue-swipe.git",
   "publishConfig": {
-    "registry":"https://registry.npmjs.org/"
+    "registry":"https://registry.npmjs.org/",
+    "access": "public"
   },
   "author": "Terry Zhang <mousetrip@outlook.com>",
   "license": "MIT",
