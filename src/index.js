@@ -1,3 +1,4 @@
+let installed = false
 function getOrientation(x, y, threshold) {
   if (x > y && x > threshold) {
     return 'horizontal'
@@ -10,17 +11,16 @@ function getOrientation(x, y, threshold) {
   return ''
 }
 export default class VueSwipe {
-  constructor(threshold = 0) {
-    this._orientation = '' // horizontal / vertcal 水平竖直
-    this.offsetX = 0
-    this.offsetY = 0
+  constructor(options = {threshold: 0}) {
     this._startX = 0
     this._startY = 0
-    this._threshold = threshold
+    this._threshold = options.threshold
+    this.orientation = '' // horizontal / vertcal 水平竖直
+    this.offsetX = 0
+    this.offsetY = 0
     this.deltaX = 0
     this.deltaY = 0
-    this.cbs = {}
-    this.swiping = false
+    this._cbs = {}
 
     this.initDirective = this.initDirective.bind(this)
     this._swipeStart = this._swipeStart.bind(this)
@@ -28,7 +28,7 @@ export default class VueSwipe {
     this._swipeEnd = this._swipeEnd.bind(this)
   }
   _reset() {
-    this._orientation = ''
+    this.orientation = ''
     this.deltaX = 0
     this.deltaY = 0
     this.offsetX = 0
@@ -36,10 +36,9 @@ export default class VueSwipe {
   }
   _swipeStart(event) {
     this._reset()
-    this.swiping = true
     this._startX = event.touches[0].clientX
     this._startY = event.touches[0].clientY
-    this.cbs.onStart && this.cbs.onStart(this.swiping)
+    this._cbs.onStart && this._cbs.onStart()
   }
   _swipeMove(event) {
     event.preventDefault()
@@ -48,28 +47,27 @@ export default class VueSwipe {
     this.deltaY = touch.clientY - this._startY
     this.offsetX = Math.abs(this.deltaX)
     this.offsetY = Math.abs(this.deltaY)
-    if (!this._orientation) {
-      this._orientation = getOrientation(
+    if (!this.orientation) {
+      this.orientation = getOrientation(
         this.offsetX,
         this.offsetY,
         this._threshold
       )
     }
-    if (this.cbs.onSwiping) {
-      if (this._orientation === 'horizontal') {
-        this.cbs.onSwiping(this.deltaX, this.offsetX, this.swiping, event)
-      } else if (this._orientation === 'vertical') {
-        this.cbs.onSwiping(this.deltaY, this.offsetY, this.swiping, event)
+    if (this._cbs.onSwiping) {
+      if (this.orientation === 'horizontal') {
+        this._cbs.onSwiping(this.orientation, this.deltaX, this.offsetX, event)
+      } else if (this.orientation === 'vertical') {
+        this._cbs.onSwiping(this.orientation, this.deltaY, this.offsetY, event)
       }
     }
   }
   _swipeEnd(event) {
-    this.swiping = false
-    if (this.cbs.onSwiped) {
-      if (this._orientation === 'horizontal') {
-        this.cbs.onSwiped(this.deltaX, this.offsetX, this.swiping, event)
-      } else if (this._orientation === 'vertical') {
-        this.cbs.onSwiped(this.deltaY, this.offsetY, this.swiping, event)
+    if (this._cbs.onSwiped) {
+      if (this.orientation === 'horizontal') {
+        this._cbs.onSwiped(this.orientation, this.deltaX, this.offsetX, event)
+      } else if (this.orientation === 'vertical') {
+        this._cbs.onSwiped(this.orientation, this.deltaY, this.offsetY, event)
       }
     }
     this._reset()
@@ -79,7 +77,7 @@ export default class VueSwipe {
     return {
       inserted(el, binding) {
         const { value = {} } = binding
-        that.cbs = value
+        that._cbs = value
         el.addEventListener('touchstart', that._swipeStart)
         el.addEventListener('touchmove', that._swipeMove)
         el.addEventListener('touchend', that._swipeEnd)
@@ -91,4 +89,12 @@ export default class VueSwipe {
       },
     }
   }
+}
+
+export const VueSwipeInstaller = (threshold = 0) => (Vue) => {
+  if (installed) return
+  installed = true
+  try {
+    Vue.directive('swipe', new VueSwipe(threshold).initDirective())
+  } catch(e) {}
 }

@@ -4,14 +4,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 64px;
+  height: 480px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   background-color: rgba(0, 0, 0, 0.6);
-  transition: height 0.3s linear;
-}
-.bottom-drawer.swiping {
-  transition: none;
+  transition-property: transform;
+  transition-timing-function: ease-in-out;
 }
 .bottom-drawer__trigger {
   position: relative;
