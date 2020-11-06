@@ -1,7 +1,7 @@
 const swipe = new VueSwipe().initDirective()
 const maxHeight = 480
 const minHeight = 64
-const triggerLen = 24
+const triggerLen = 48
 Vue.component('demo', {
   template: `
   <main class="page-main" @touchmove="preventMainSwipe">
@@ -43,31 +43,31 @@ Vue.component('demo', {
       this.swiping = swiping
     },
     onSwiping(delta, offset) {
-      let distance = 0
-      console.log(delta < 0 ? '往上划' : '往下划')
-      let distance1 = delta < 0 ? minHeight + offset : minHeight
-      let distance2 = delta > 0 ? maxHeight - offset : maxHeight
-      // if (delta < 0) {
-      //   distance = minHeight 
-      //   console.log(distance)
-      //   if (distance > maxHeight) {
-      //     console.log('1111')
-      //     this.drawerHeight = maxHeight
-      //   } else {
-      //     console.log('2222')
-      //     this.drawerHeight = distance
-      //   }
-      // } else {
-      //   distance = maxHeight - delta
-      //   console.log(distance)
-      //   if (distance < minHeight) {
-      //     console.log('3333')
-      //     this.drawerHeight = minHeight
-      //   } else {
-      //     console.log('4444')
-      //     this.drawerHeight = distance
-      //   }
-      // }
+      if (this.expand) {
+        // 滑动前的状态是展开
+        if (delta < 0) {
+          // 如果最后结果是向上滑动，则为最大高度
+          this.drawerHeight = maxHeight
+        } else if (offset > maxHeight - minHeight){
+          // 如果最后结果是向下滑动且偏移量大于可滑动范围，则为最小高度
+          this.drawerHeight = minHeight
+        } else {
+          // 在可滑动范围内滑动
+          this.drawerHeight = maxHeight - offset
+        }
+      } else {
+        // 滑动前的状态是收起
+        if (delta > 0) {
+          // 如果最后结果是向下滑动，则为最小高度
+          this.drawerHeight = minHeight
+        } else if (offset > maxHeight - minHeight){
+          // 如果最后结果是向上滑动且偏移量大于可滑动范围，则为最大高度
+          this.drawerHeight = maxHeight
+        } else {
+          // 在可滑动范围内滑动
+          this.drawerHeight = minHeight + offset
+        }
+      }
     },
     onSwiped(delta, offset, swiping) {
       this.swiping = swiping
