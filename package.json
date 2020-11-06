@@ -2,8 +2,18 @@
   "name": "@terryz95/vue-swipe",
   "version": "0.0.1",
   "description": "A custom directive of Vue for the swipe gesture.",
-  "main": "index.js",
-  "repository": "https://github.com/terryz95/vue-swipe.git",
+  "main": "dist/vue-swipe.common.js",
+  "module": "dist/vue-swipe.esm.js",
+  "jsdelivr": "dist/vue-swipe.min.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "vue",
+    "directive",
+    "swipe"
+  ],
   "publishConfig": {
     "registry":"https://registry.npmjs.org/",
     "access": "public"
@@ -30,5 +40,10 @@
     "rollup": "^2.32.1",
     "terser": "^5.3.8",
     "vuepress": "^1.7.1"
-  }
+  },
+  "repository": "https://github.com/terryz95/vue-swipe.git",
+  "bugs": {
+    "url": "https://github.com/terryz95/vue-swipe/issues"
+  },
+  "homepage": "https://github.com/terryz95/vue-swipe#readme"
 }
