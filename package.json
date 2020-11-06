@@ -25,9 +25,6 @@
     "build:examples": "node build/gh-pages.js",
     "release": "bash scripts/release.sh"
   },
-  "dependencies": {
-    "lodash-es": "^4.17.15"
-  },
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
@@ -38,8 +35,7 @@
     "colors": "^1.4.0",
     "gh-pages": "^3.1.0",
     "rollup": "^2.32.1",
-    "terser": "^5.3.8",
-    "vuepress": "^1.7.1"
+    "terser": "^5.3.8"
   },
   "repository": "https://github.com/terryz95/vue-swipe.git",
   "bugs": {
