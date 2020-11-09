@@ -1,6 +1,6 @@
 {
   "name": "@terryz95/vue-swipe",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A custom directive of Vue for the swipe gesture.",
   "main": "dist/vue-swipe.common.js",
   "module": "dist/vue-swipe.esm.js",
