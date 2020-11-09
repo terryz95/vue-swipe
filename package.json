@@ -1,6 +1,6 @@
 {
   "name": "@terryz95/vue-swipe",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A custom directive of Vue for the swipe gesture.",
   "main": "dist/vue-swipe.common.js",
   "module": "dist/vue-swipe.esm.js",
@@ -15,7 +15,7 @@
     "swipe"
   ],
   "publishConfig": {
-    "registry":"https://registry.npmjs.org/",
+    "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "author": "Terry Zhang <mousetrip@outlook.com>",
