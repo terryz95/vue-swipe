@@ -41,7 +41,6 @@ export default class VueSwipe {
     this._cbs.onStart && this._cbs.onStart()
   }
   _swipeMove(event) {
-    event.preventDefault()
     const touch = event.touches[0]
     this.deltaX = touch.clientX - this._startX
     this.deltaY = touch.clientY - this._startY
