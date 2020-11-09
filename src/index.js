@@ -91,7 +91,7 @@ export default class VueSwipe {
   }
 }
 
-export const VueSwipeInstaller = (options = {threshold = 0}) => (Vue) => {
+export const VueSwipeInstaller = (options = {threshold: 0}) => (Vue) => {
   if (installed) return
   installed = true
   try {
